@@ -133,12 +133,25 @@
             return null;
         }
     }
-    
+
     function timeToMinutes(time)
     {
         return time && (time.hour * 60 + time.minute);
     }
-    
+
+    /**
+     *  Tests if the div is at the bottom of window.
+     *  If it is, places it above the element
+     */
+    function testOffset(offset, div) {
+        console.log(offset.to)
+        if ((offset.top + div.height()) > window.innerHeight) {
+            $(div).css({
+                top: offset.top - div.height()
+            });
+        }
+    }
+
     /**
      * Generates calendar header, with month name, << and >> controls, and
      * initials for days of the week.
@@ -393,6 +406,9 @@
                         }
                     }
                 );
+
+                testOffset(offset, div);
+
             }).blur(function() {
                 if (within){
                     if (div) element.focus();
@@ -446,8 +462,9 @@
                             options.padding * 2
                     });
 
-                element.after(div); 
-                
+                element.after(div);
+                testOffset(offset, div);
+
                 var renderOptions = {
                     selection: element.val(),
                     selectTime: function(time) {
